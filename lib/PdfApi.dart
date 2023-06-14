@@ -19,11 +19,14 @@ class PdfApi {
   static Future<File> createDocument() async {
     print("I am here3");
     // final imageSvg = await rootBundle.loadString('assets/images/image1.svg');
-    final imagejpeg = (await rootBundle.load('assets/images/image.jpeg'))
+    final leftjpeg = (await rootBundle.load('assets/images/left_image.jpeg'))
+        .buffer
+        .asUint8List();
+    final rightjpeg = (await rootBundle.load('assets/images/right_image.jpeg'))
         .buffer
         .asUint8List();
     final centreImage =
-        (await rootBundle.load('assets/images/revergon_image.jpeg'))
+        (await rootBundle.load('assets/images/revergon_image.png'))
             .buffer
             .asUint8List();
 
@@ -37,16 +40,23 @@ class PdfApi {
                   child: pw.Stack(alignment: pw.Alignment.center, children: [
                     pw.Positioned(
                       top: 5,
-                      child: pw.Image(pw.MemoryImage(imagejpeg),
-                          height: 800, width: 600),
+                      left: 0,
+                      child: pw.Image(pw.MemoryImage(leftjpeg),
+                          height: 700, width: 120),
                     ),
                     pw.Positioned(
-                      bottom: 450,
+                      top: 5,
+                      right: 0,
+                      child: pw.Image(pw.MemoryImage(rightjpeg),
+                          height: 700, width: 125),
+                    ),
+                    pw.Positioned(
+                      bottom: 435,
                       child: pw.Image(pw.MemoryImage(centreImage),
-                          height: 350, width: 400),
+                          height: 350, width: 420),
                     ),
                     pw.Positioned(
-                      bottom: 415,
+                      bottom: 320,
                       child: pw.Row(
                         children: [
                           pw.Text("WORKSTATION ",
@@ -65,7 +75,7 @@ class PdfApi {
                       ),
                     ),
                     pw.Positioned(
-                      bottom: 300,
+                      bottom: 200,
                       child: pw.Container(
                         width: 300,
                         height: 500,
