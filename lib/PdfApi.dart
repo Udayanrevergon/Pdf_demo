@@ -1,12 +1,8 @@
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter/widgets.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-
 import 'package:rev_pdf/save_launch.dart';
 
 class PageoneData {
@@ -29,7 +25,7 @@ class PdfApi {
 
     final pdf = pw.Document();
     pdf.addPage(pw.MultiPage(
-        pageTheme: pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
         build: (context) => [
               pw.Container(
                   width: double.infinity,
@@ -56,10 +52,10 @@ class PdfApi {
                                 fontWeight: pw.FontWeight.bold,
                               )),
                           pw.Text("Assessment ",
-                              style: pw.TextStyle(
+                              style: const pw.TextStyle(
                                   fontSize: 20, color: PdfColors.grey700)),
                           pw.Text("Report ",
-                              style: pw.TextStyle(
+                              style: const pw.TextStyle(
                                   fontSize: 20, color: PdfColors.grey700)),
                         ],
                       ),
@@ -76,7 +72,7 @@ class PdfApi {
                           context: context,
                           data: const <List<String>>[
                             // <String>['Date', 'PDF Version', 'Acrobat Version'],
-                            <String>['Patient Name', 'TTTTT'],
+                            <String>['Patient Name', 'Arohi'],
                             <String>['Organization', 'IBM'],
                             <String>['Date', '14-06-23'],
                             <String>['Place', 'Bangalore'],
@@ -86,6 +82,57 @@ class PdfApi {
                       ),
                     ),
                   ])),
+            ]));
+    pdf.addPage(pw.MultiPage(
+        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+        build: (context) => [
+              pw.Container(
+                width: double.infinity,
+                height: 840,
+                child: pw.Padding(
+                  padding: const pw.EdgeInsets.all(48.0),
+                  child: pw.Column(
+                    children: [
+                      pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text('Personal Details',
+                              style: const pw.TextStyle(
+                                fontSize: 28,
+                              )),
+                          pw.SizedBox(
+                            width: 100,
+                            child: pw.Image(
+                              pw.MemoryImage(centreImage),
+                            ),
+                          ),
+                        ],
+                      ),
+                      pw.SizedBox(
+                        height: 70,
+                      ),
+                      pw.TableHelper.fromTextArray(
+                        headers: [],
+                        cellStyle: const pw.TextStyle(fontSize: 14),
+                        cellAlignment: pw.Alignment.topLeft,
+                        context: context,
+                        data: const <List<String>>[
+                          // <String>['Date', 'PDF Version', 'Acrobat Version'],
+                          <String>['Patient Name', 'Arohi'],
+                          <String>['Age Band', '20-30'],
+                          <String>['Gender', 'Female'],
+                          <String>['Height', '172cm'],
+                          <String>['Weight', '75kg'],
+                          <String>['Function', 'Laptop'],
+                          <String>['Screentime', '8-12 Hours'],
+                          <String>['Mode Of Work', 'On-Site'],
+                          // <String>['1999', 'PDF 1.3'],
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ]));
     return saveDocument(name: 'my_example.pdf', pdf: pdf);
   }
