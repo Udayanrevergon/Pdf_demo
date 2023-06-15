@@ -21,8 +21,12 @@ class PdfApi {
     final rightjpeg = (await rootBundle.load('assets/images/right_image.jpeg'))
         .buffer
         .asUint8List();
-    final centreImage =
+    final revergonLogo =
         (await rootBundle.load('assets/images/revergon_image.png'))
+            .buffer
+            .asUint8List();
+    final workstationImage =
+        (await rootBundle.load('assets/images/workstation_image.png'))
             .buffer
             .asUint8List();
 
@@ -48,7 +52,7 @@ class PdfApi {
                     ),
                     pw.Positioned(
                       bottom: 435,
-                      child: pw.Image(pw.MemoryImage(centreImage),
+                      child: pw.Image(pw.MemoryImage(revergonLogo),
                           height: 350, width: 420),
                     ),
                     pw.Positioned(
@@ -114,7 +118,7 @@ class PdfApi {
                             pw.SizedBox(
                               width: 100,
                               child: pw.Image(
-                                pw.MemoryImage(centreImage),
+                                pw.MemoryImage(revergonLogo),
                               ),
                             ),
                           ],
@@ -146,6 +150,78 @@ class PdfApi {
                 ),
               ]),
     );
+    pdf.addPage(pw.MultiPage(
+        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+        build: (context) => [
+              pw.Container(
+                  width: double.infinity,
+                  height: 840,
+                  child: pw.Padding(
+                      padding: const pw.EdgeInsets.all(48.0),
+                      child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Row(
+                              mainAxisAlignment:
+                                  pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text('Workstation',
+                                    style: const pw.TextStyle(
+                                      fontSize: 28,
+                                    )),
+                                pw.SizedBox(
+                                  width: 100,
+                                  child: pw.Image(
+                                    pw.MemoryImage(revergonLogo),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            pw.SizedBox(
+                              height: 30,
+                            ),
+                            pw.Padding(
+                                padding: const pw.EdgeInsets.symmetric(
+                                    horizontal: 20),
+                                child: pw.SizedBox(
+                                  width: 700,
+                                  height: 300,
+                                  child: pw.Image(
+                                    pw.MemoryImage(workstationImage),
+                                  ),
+                                )),
+                            pw.SizedBox(
+                              height: 50,
+                            ),
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.symmetric(
+                                  horizontal: 20.0),
+                              child: pw.Text("Current Workstation",
+                                  style: const pw.TextStyle(fontSize: 25)),
+                            ),
+                            pw.SizedBox(height: 40),
+                            pw.Column(
+                              children: [
+                                pw.Padding(
+                                  padding: const pw.EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: pw.ListView.builder(
+                                    itemBuilder: (context, index) {
+                                      return pw.Bullet(
+                                        text:
+                                            'Workstation description ${index + 1}',
+                                        style: const pw.TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      );
+                                    },
+                                    itemCount: 4,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ])))
+            ]));
     pdf.addPage(
       pw.MultiPage(
           pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
@@ -167,7 +243,7 @@ class PdfApi {
                             pw.SizedBox(
                               width: 100,
                               child: pw.Image(
-                                pw.MemoryImage(centreImage),
+                                pw.MemoryImage(revergonLogo),
                               ),
                             ),
                           ],
@@ -250,7 +326,7 @@ class PdfApi {
                             pw.SizedBox(
                               width: 100,
                               child: pw.Image(
-                                pw.MemoryImage(centreImage),
+                                pw.MemoryImage(revergonLogo),
                               ),
                             ),
                           ],

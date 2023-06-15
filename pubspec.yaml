@@ -74,6 +74,7 @@ flutter:
     - assets/images/image1.svg
     - assets/images/left_image.jpeg
     - assets/images/right_image.jpeg
+    - assets/images/workstation_image.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
