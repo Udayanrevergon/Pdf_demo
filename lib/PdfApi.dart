@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/widgets.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:rev_pdf/save_launch.dart';
@@ -12,6 +13,8 @@ class PageoneData {
 }
 
 class PdfApi {
+  BuildContext ctx;
+  PdfApi(this.ctx);
   static Future<File> createDocument() async {
     print("I am here3");
     // final imageSvg = await rootBundle.loadString('assets/images/image1.svg');

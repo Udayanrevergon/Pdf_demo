@@ -1,4 +1,5 @@
 import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:rev_pdf/PdfApi.dart';
 import 'package:rev_pdf/save_launch.dart';
@@ -26,9 +27,10 @@ class _PdfGeneratorState extends State<PdfGenerator> {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-          child: Text('Create PDF'),
+          child: const Text('Create PDF'),
           onPressed: () async {
             print("I am here1");
+            PdfApi(context);
             final pdfFile = await PdfApi.createDocument();
             openFile(pdfFile);
           },
