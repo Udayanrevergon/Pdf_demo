@@ -6,13 +6,13 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:rev_pdf/save_launch.dart';
 
-class PageoneData {
-  final String attribute;
-  final String value;
-  PageoneData({required this.attribute, required this.value});
+class TakeContext {
+  final BuildContext ctx;
+  TakeContext(this.ctx);
 }
 
 class PdfApi {
+  
   static Future<File> createDocument() async {
     print("I am here3");
     // final imageSvg = await rootBundle.loadString('assets/images/image1.svg');
@@ -182,8 +182,8 @@ class PdfApi {
                               height: 30,
                             ),
                             pw.Padding(
-                                padding:
-                                    pw.EdgeInsets.symmetric(horizontal: 20),
+                                padding: const pw.EdgeInsets.symmetric(
+                                    horizontal: 20),
                                 child: pw.SizedBox(
                                   width: 700,
                                   height: 300,
@@ -198,7 +198,7 @@ class PdfApi {
                               padding: const pw.EdgeInsets.symmetric(
                                   horizontal: 20.0),
                               child: pw.Text("Current Workstation",
-                                  style: pw.TextStyle(fontSize: 25)),
+                                  style: const pw.TextStyle(fontSize: 25)),
                             ),
                             pw.SizedBox(height: 40),
                             pw.Column(
@@ -223,7 +223,6 @@ class PdfApi {
                             ),
                           ])))
             ]));
-
     pdf.addPage(
       pw.MultiPage(
           pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
