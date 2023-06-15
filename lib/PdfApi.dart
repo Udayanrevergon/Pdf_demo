@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -21,8 +22,12 @@ class PdfApi {
     final rightjpeg = (await rootBundle.load('assets/images/right_image.jpeg'))
         .buffer
         .asUint8List();
-    final centreImage =
+    final revergonLogo =
         (await rootBundle.load('assets/images/revergon_image.png'))
+            .buffer
+            .asUint8List();
+    final workstationImage =
+        (await rootBundle.load('assets/images/workstation_image.png'))
             .buffer
             .asUint8List();
 
@@ -48,7 +53,7 @@ class PdfApi {
                     ),
                     pw.Positioned(
                       bottom: 435,
-                      child: pw.Image(pw.MemoryImage(centreImage),
+                      child: pw.Image(pw.MemoryImage(revergonLogo),
                           height: 350, width: 420),
                     ),
                     pw.Positioned(
@@ -113,7 +118,7 @@ class PdfApi {
                           pw.SizedBox(
                             width: 100,
                             child: pw.Image(
-                              pw.MemoryImage(centreImage),
+                              pw.MemoryImage(revergonLogo),
                             ),
                           ),
                         ],
@@ -139,6 +144,78 @@ class PdfApi {
                           // <String>['1999', 'PDF 1.3'],
                         ],
                       ),
+                    ],
+                  ),
+                ),
+              ),
+            ]));
+    pdf.addPage(pw.MultiPage(
+        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+        build: (context) => [
+              pw.Container(
+                width: double.infinity,
+                height: 840,
+                child: pw.Padding(
+                  padding: const pw.EdgeInsets.all(48.0),
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text('Workstation',
+                              style: const pw.TextStyle(
+                                fontSize: 28,
+                              )),
+                          pw.SizedBox(
+                            width: 100,
+                            child: pw.Image(
+                              pw.MemoryImage(revergonLogo),
+                            ),
+                          ),
+                        ],
+                      ),
+                      pw.SizedBox(
+                        height: 30,
+                      ),
+                      pw.Padding(
+                          padding: pw.EdgeInsets.symmetric(horizontal: 20),
+                          child: pw.SizedBox(
+                            width: 700,
+                            height: 300,
+                            child: pw.Image(
+                              pw.MemoryImage(workstationImage),
+                            ),
+                          )),
+                      pw.SizedBox(
+                        height: 50,
+                      ),
+                      pw.Padding(
+                        padding:
+                            const pw.EdgeInsets.symmetric(horizontal: 20.0),
+                        child: pw.Text("Current Workstation",
+                            style: pw.TextStyle(fontSize: 25)),
+                      ),
+                      
+
+                      // pw.TableHelper.fromTextArray(
+                      //   headers: [],
+                      //   cellStyle: const pw.TextStyle(fontSize: 14),
+                      //   cellAlignment: pw.Alignment.topLeft,
+                      //   context: context,
+                      //   data: const <List<String>>[
+                      //     // <String>['Date', 'PDF Version', 'Acrobat Version'],
+                      //     <String>['Patient Name', 'Arohi'],
+                      //     <String>['Age Band', '20-30'],
+                      //     <String>['Gender', 'Female'],
+                      //     <String>['Height', '172cm'],
+                      //     <String>['Weight', '75kg'],
+                      //     <String>['Function', 'Laptop'],
+                      //     <String>['Screentime', '8-12 Hours'],
+                      //     <String>['Mode Of Work', 'On-Site'],
+                      //     // <String>['1999', 'PDF 1.3'],
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),

@@ -13,8 +13,8 @@ Future<File> saveDocument({
   final bytes = await pdf.save();
   print("I am here1");
 
-  final dir = await getTemporaryDirectory();
-  final file = File('${dir.path}/$name');
+  final dir = await getExternalStorageDirectory();
+  final file = File('${dir!.path}/$name');
 
   await file.writeAsBytes(bytes);
   print("I am here1");
