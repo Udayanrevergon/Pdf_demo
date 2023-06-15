@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:open_document/my_files/init.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,8 +10,8 @@ Future<File> saveDocument({
   final bytes = await pdf.save();
   print("I am here1");
 
-  final dir = await getTemporaryDirectory();
-  final file = File('${dir.path}/$name');
+  final dir = await getExternalStorageDirectory();
+  final file = File('${dir!.path}/$name');
 
   await file.writeAsBytes(bytes);
   print("I am here1");

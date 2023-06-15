@@ -93,57 +93,192 @@ class PdfApi {
                     ),
                   ])),
             ]));
-    pdf.addPage(pw.MultiPage(
-        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
-        build: (context) => [
-              pw.Container(
-                width: double.infinity,
-                height: 840,
-                child: pw.Padding(
-                  padding: const pw.EdgeInsets.all(48.0),
-                  child: pw.Column(
-                    children: [
-                      pw.Row(
-                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                        children: [
-                          pw.Text('Personal Details',
-                              style: const pw.TextStyle(
-                                fontSize: 28,
-                              )),
-                          pw.SizedBox(
-                            width: 100,
-                            child: pw.Image(
-                              pw.MemoryImage(centreImage),
+    pdf.addPage(
+      pw.MultiPage(
+          pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+          build: (context) => [
+                pw.Container(
+                  width: double.infinity,
+                  height: 840,
+                  child: pw.Padding(
+                    padding: const pw.EdgeInsets.all(48.0),
+                    child: pw.Column(
+                      children: [
+                        pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text('Personal Details',
+                                style: const pw.TextStyle(
+                                  fontSize: 28,
+                                )),
+                            pw.SizedBox(
+                              width: 100,
+                              child: pw.Image(
+                                pw.MemoryImage(centreImage),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      pw.SizedBox(
-                        height: 70,
-                      ),
-                      pw.TableHelper.fromTextArray(
-                        headers: [],
-                        cellStyle: const pw.TextStyle(fontSize: 14),
-                        cellAlignment: pw.Alignment.topLeft,
-                        context: context,
-                        data: const <List<String>>[
-                          // <String>['Date', 'PDF Version', 'Acrobat Version'],
-                          <String>['Patient Name', 'Arohi'],
-                          <String>['Age Band', '20-30'],
-                          <String>['Gender', 'Female'],
-                          <String>['Height', '172cm'],
-                          <String>['Weight', '75kg'],
-                          <String>['Function', 'Laptop'],
-                          <String>['Screentime', '8-12 Hours'],
-                          <String>['Mode Of Work', 'On-Site'],
-                          // <String>['1999', 'PDF 1.3'],
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                        pw.SizedBox(
+                          height: 70,
+                        ),
+                        pw.TableHelper.fromTextArray(
+                          headers: [],
+                          cellStyle: const pw.TextStyle(fontSize: 14),
+                          cellAlignment: pw.Alignment.topLeft,
+                          context: context,
+                          data: const <List<String>>[
+                            // <String>['Date', 'PDF Version', 'Acrobat Version'],
+                            <String>['Patient Name', 'Arohi'],
+                            <String>['Age Band', '20-30'],
+                            <String>['Gender', 'Female'],
+                            <String>['Height', '172cm'],
+                            <String>['Weight', '75kg'],
+                            <String>['Function', 'Laptop'],
+                            <String>['Screentime', '8-12 Hours'],
+                            <String>['Mode Of Work', 'On-Site'],
+                            // <String>['1999', 'PDF 1.3'],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ]));
+              ]),
+    );
+    pdf.addPage(
+      pw.MultiPage(
+          pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+          build: (context) => [
+                pw.Container(
+                  width: double.infinity,
+                  height: 840,
+                  child: pw.Padding(
+                    padding: const pw.EdgeInsets.all(48.0),
+                    child: pw.Column(
+                      children: [
+                        pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text('Key Findings & Outcomes',
+                                style: const pw.TextStyle(
+                                  fontSize: 28,
+                                )),
+                            pw.SizedBox(
+                              width: 100,
+                              child: pw.Image(
+                                pw.MemoryImage(centreImage),
+                              ),
+                            ),
+                          ],
+                        ),
+                        pw.SizedBox(
+                          height: 70,
+                        ),
+                        pw.Header(
+                          level: 0,
+                          child: pw.Text('Key Findings',
+                              style: const pw.TextStyle(
+                                fontSize: 20,
+                              )),
+                        ),
+                        pw.Padding(padding: const pw.EdgeInsets.all(10)),
+                        pw.Column(
+                          children: [
+                            pw.ListView.builder(
+                              itemBuilder: (context, index) {
+                                return pw.Bullet(
+                                  text: 'Finding ${index + 1}',
+                                  style: const pw.TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                );
+                              },
+                              itemCount: 7,
+                            ),
+                          ],
+                        ),
+                        pw.Padding(padding: const pw.EdgeInsets.all(10)),
+                        pw.Header(
+                          level: 0,
+                          child: pw.Text('Outcome/Resulting Pain Points',
+                              style: const pw.TextStyle(
+                                fontSize: 20,
+                              )),
+                        ),
+                        pw.Padding(padding: const pw.EdgeInsets.all(10)),
+                        pw.Column(
+                          children: [
+                            pw.ListView.builder(
+                              itemBuilder: (context, index) {
+                                return pw.Bullet(
+                                  text: 'Pain Result ${index + 1}',
+                                  style: const pw.TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                );
+                              },
+                              itemCount: 6,
+                            ),
+                          ],
+                        ),
+                        pw.Padding(padding: const pw.EdgeInsets.all(10)),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+    );
+    pdf.addPage(
+      pw.MultiPage(
+          pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+          build: (context) => [
+                pw.Container(
+                  width: double.infinity,
+                  height: 840,
+                  child: pw.Padding(
+                    padding: const pw.EdgeInsets.all(48.0),
+                    child: pw.Column(
+                      children: [
+                        pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text('Recommendations',
+                                style: const pw.TextStyle(
+                                  fontSize: 28,
+                                )),
+                            pw.SizedBox(
+                              width: 100,
+                              child: pw.Image(
+                                pw.MemoryImage(centreImage),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // pw.SizedBox(
+                        //   height: 70,
+                        // ),
+                        pw.Column(
+                          children: [
+                            pw.ListView.builder(
+                              itemBuilder: (context, index) {
+                                return pw.Bullet(
+                                  text: 'Recommendation ${index + 1}',
+                                  style: const pw.TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                );
+                              },
+                              itemCount: 7,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+    );
     return saveDocument(name: 'my_example.pdf', pdf: pdf);
   }
 }
