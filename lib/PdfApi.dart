@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/widgets.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:rev_pdf/save_launch.dart';
@@ -12,8 +13,12 @@ class TakeContext {
 }
 
 class PdfApi {
-  
-  static Future<File> createDocument() async {
+  BuildContext ctx;
+
+  PdfApi(this.ctx);
+  Future<File> createDocument() async {
+    var size = MediaQuery.of(ctx).size;
+    print(size.width);
     print("I am here3");
     // final imageSvg = await rootBundle.loadString('assets/images/image1.svg');
     final leftjpeg = (await rootBundle.load('assets/images/left_image.jpeg'))
@@ -33,31 +38,32 @@ class PdfApi {
 
     final pdf = pw.Document();
     pdf.addPage(pw.MultiPage(
-        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+        pageTheme: const pw.PageTheme(
+            pageFormat: PdfPageFormat.a4, margin: pw.EdgeInsets.all(0)),
         build: (context) => [
               pw.Container(
                   width: double.infinity,
-                  height: 840,
+                  height: size.height * 0.8,
                   child: pw.Stack(alignment: pw.Alignment.center, children: [
                     pw.Positioned(
-                      top: 5,
+                      top: size.height * 0.005,
                       left: 0,
                       child: pw.Image(pw.MemoryImage(leftjpeg),
-                          height: 700, width: 120),
+                          height: size.height * 0.5, width: size.width * 0.28),
                     ),
                     pw.Positioned(
-                      top: 5,
+                      top: size.height * 0.005,
                       right: 0,
                       child: pw.Image(pw.MemoryImage(rightjpeg),
-                          height: 700, width: 125),
+                          height: size.height * 0.5, width: size.width * 0.28),
                     ),
                     pw.Positioned(
-                      bottom: 435,
+                      bottom: size.height * 0.35,
                       child: pw.Image(pw.MemoryImage(revergonLogo),
-                          height: 350, width: 420),
+                          height: size.height * 0.41, width: 420),
                     ),
                     pw.Positioned(
-                      bottom: 320,
+                      bottom: size.height * 0.27,
                       child: pw.Row(
                         children: [
                           pw.Text("WORKSTATION ",
@@ -76,10 +82,10 @@ class PdfApi {
                       ),
                     ),
                     pw.Positioned(
-                      bottom: 200,
+                      bottom: size.height * 0.15,
                       child: pw.Container(
-                        width: 300,
-                        height: 500,
+                        width: size.width * 0.7,
+                        height: size.height * 0.6,
                         child: pw.TableHelper.fromTextArray(
                           headers: [],
                           cellStyle: const pw.TextStyle(fontSize: 12),
@@ -100,11 +106,12 @@ class PdfApi {
             ]));
     pdf.addPage(
       pw.MultiPage(
-          pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+          pageTheme: const pw.PageTheme(
+              pageFormat: PdfPageFormat.a4, margin: pw.EdgeInsets.all(0)),
           build: (context) => [
                 pw.Container(
                   width: double.infinity,
-                  height: 840,
+                  height: size.height * 0.8,
                   child: pw.Padding(
                     padding: const pw.EdgeInsets.all(48.0),
                     child: pw.Column(
@@ -117,7 +124,7 @@ class PdfApi {
                                   fontSize: 28,
                                 )),
                             pw.SizedBox(
-                              width: 100,
+                              width: size.width * 0.23,
                               child: pw.Image(
                                 pw.MemoryImage(revergonLogo),
                               ),
