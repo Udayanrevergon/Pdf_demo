@@ -31,7 +31,7 @@ class _PdfGeneratorState extends State<PdfGenerator> {
           onPressed: () async {
             print("I am here1");
             PdfApi(context);
-            final pdfFile = await PdfApi.createDocument();
+            final pdfFile = await PdfApi(context).createDocument();
             openFile(pdfFile);
           },
         ),

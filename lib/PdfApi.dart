@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:rev_pdf/save_launch.dart';
@@ -12,10 +13,13 @@ class PageoneData {
   PageoneData({required this.attribute, required this.value});
 }
 
+final now = DateTime.now();
+String formatter = DateFormat('y').format(now);
+
 class PdfApi {
   BuildContext ctx;
   PdfApi(this.ctx);
-  static Future<File> createDocument() async {
+  Future<File> createDocument() async {
     print("I am here3");
     // final imageSvg = await rootBundle.loadString('assets/images/image1.svg');
     final leftjpeg = (await rootBundle.load('assets/images/left_image.jpeg'))
@@ -34,124 +38,163 @@ class PdfApi {
             .asUint8List();
 
     final pdf = pw.Document();
-    pdf.addPage(pw.MultiPage(
-        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
-        build: (context) => [
-              pw.Container(
-                  width: double.infinity,
-                  height: 840,
-                  child: pw.Stack(alignment: pw.Alignment.center, children: [
-                    pw.Positioned(
-                      top: 5,
-                      left: 0,
-                      child: pw.Image(pw.MemoryImage(leftjpeg),
-                          height: 700, width: 120),
-                    ),
-                    pw.Positioned(
-                      top: 5,
-                      right: 0,
-                      child: pw.Image(pw.MemoryImage(rightjpeg),
-                          height: 700, width: 125),
-                    ),
-                    pw.Positioned(
-                      bottom: 435,
-                      child: pw.Image(pw.MemoryImage(revergonLogo),
-                          height: 350, width: 420),
-                    ),
-                    pw.Positioned(
-                      bottom: 320,
-                      child: pw.Row(
-                        children: [
-                          pw.Text("WORKSTATION ",
-                              style: pw.TextStyle(
-                                color: PdfColors.grey700,
-                                fontSize: 20,
-                                fontWeight: pw.FontWeight.bold,
-                              )),
-                          pw.Text("Assessment ",
-                              style: const pw.TextStyle(
-                                  fontSize: 20, color: PdfColors.grey700)),
-                          pw.Text("Report ",
-                              style: const pw.TextStyle(
-                                  fontSize: 20, color: PdfColors.grey700)),
-                        ],
-                      ),
-                    ),
-                    pw.Positioned(
-                      bottom: 200,
-                      child: pw.Container(
-                        width: 300,
-                        height: 500,
-                        child: pw.TableHelper.fromTextArray(
-                          headers: [],
-                          cellStyle: const pw.TextStyle(fontSize: 12),
-                          cellAlignment: pw.Alignment.topLeft,
-                          context: context,
-                          data: const <List<String>>[
-                            // <String>['Date', 'PDF Version', 'Acrobat Version'],
-                            <String>['Patient Name', 'Arohi'],
-                            <String>['Organization', 'IBM'],
-                            <String>['Date', '14-06-23'],
-                            <String>['Place', 'Bangalore'],
-                            // <String>['1999', 'PDF 1.3'],
-                          ],
-                        ),
-                      ),
-                    ),
-                  ])),
-            ]));
     pdf.addPage(
       pw.MultiPage(
-          pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
-          build: (context) => [
-                pw.Container(
-                  width: double.infinity,
-                  height: 840,
-                  child: pw.Padding(
-                    padding: const pw.EdgeInsets.all(48.0),
-                    child: pw.Column(
-                      children: [
-                        pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                          children: [
-                            pw.Text('Personal Details',
-                                style: const pw.TextStyle(
-                                  fontSize: 28,
-                                )),
-                            pw.SizedBox(
-                              width: 100,
-                              child: pw.Image(
-                                pw.MemoryImage(revergonLogo),
-                              ),
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(
-                          height: 70,
-                        ),
-                        pw.TableHelper.fromTextArray(
-                          headers: [],
-                          cellStyle: const pw.TextStyle(fontSize: 14),
-                          cellAlignment: pw.Alignment.topLeft,
-                          context: context,
-                          data: const <List<String>>[
-                            // <String>['Date', 'PDF Version', 'Acrobat Version'],
-                            <String>['Patient Name', 'Arohi'],
-                            <String>['Age Band', '20-30'],
-                            <String>['Gender', 'Female'],
-                            <String>['Height', '172cm'],
-                            <String>['Weight', '75kg'],
-                            <String>['Function', 'Laptop'],
-                            <String>['Screentime', '8-12 Hours'],
-                            <String>['Mode Of Work', 'On-Site'],
-                            // <String>['1999', 'PDF 1.3'],
-                          ],
-                        ),
+        pageTheme: const pw.PageTheme(
+            margin: pw.EdgeInsets.all(0), pageFormat: PdfPageFormat.a4),
+        build: (context) => [
+          pw.Container(
+            width: double.infinity,
+            height: 840,
+            child: pw.Stack(
+              alignment: pw.Alignment.center,
+              children: [
+                pw.Positioned(
+                  top: 5,
+                  left: 0,
+                  child: pw.Image(pw.MemoryImage(leftjpeg),
+                      height: 700, width: 120),
+                ),
+                pw.Positioned(
+                  top: 5,
+                  right: 0,
+                  child: pw.Image(pw.MemoryImage(rightjpeg),
+                      height: 700, width: 125),
+                ),
+                pw.Positioned(
+                  bottom: 435,
+                  child: pw.Image(pw.MemoryImage(revergonLogo),
+                      height: 350, width: 420),
+                ),
+                pw.Positioned(
+                  bottom: 320,
+                  child: pw.Row(
+                    children: [
+                      pw.Text("WORKSTATION ",
+                          style: pw.TextStyle(
+                            color: PdfColors.grey700,
+                            fontSize: 20,
+                            fontWeight: pw.FontWeight.bold,
+                          )),
+                      pw.Text("Assessment ",
+                          style: const pw.TextStyle(
+                              fontSize: 20, color: PdfColors.grey700)),
+                      pw.Text("Report ",
+                          style: const pw.TextStyle(
+                              fontSize: 20, color: PdfColors.grey700)),
+                    ],
+                  ),
+                ),
+                pw.Positioned(
+                  bottom: 200,
+                  child: pw.Container(
+                    width: 300,
+                    height: 500,
+                    child: pw.TableHelper.fromTextArray(
+                      headers: [],
+                      cellStyle: const pw.TextStyle(fontSize: 12),
+                      cellAlignment: pw.Alignment.topLeft,
+                      context: context,
+                      data: const <List<String>>[
+                        // <String>['Date', 'PDF Version', 'Acrobat Version'],
+                        <String>['Patient Name', 'Arohi'],
+                        <String>['Organization', 'IBM'],
+                        <String>['Date', '14-06-23'],
+                        <String>['Place', 'Bangalore'],
+                        // <String>['1999', 'PDF 1.3'],
                       ],
                     ),
                   ),
                 ),
-              ]),
+                pw.Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: pw.Container(
+                    alignment: pw.Alignment.centerRight,
+                    margin:
+                        const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+                    child: pw.Text(
+                      'Copyright © $formatter | Revergon Solutions Private Limited | All Rights Reserved.',
+                      style: pw.Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(color: PdfColors.grey, fontSize: 6),
+                    ),
+                  ),
+                ),
+                pw.Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: pw.Container(
+                    alignment: pw.Alignment.centerRight,
+                    margin:
+                        const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+                    child: pw.Text(
+                      'Report ID: 9001_1048',
+                      style: pw.Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(color: PdfColors.grey, fontSize: 6),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    pdf.addPage(
+      pw.MultiPage(
+        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+        build: (context) => [
+          pw.Container(
+            width: double.infinity,
+            height: 840,
+            child: pw.Padding(
+              padding: const pw.EdgeInsets.all(48.0),
+              child: pw.Column(
+                children: [
+                  pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Text('Personal Details',
+                          style: const pw.TextStyle(
+                            fontSize: 28,
+                          )),
+                      pw.SizedBox(
+                        width: 100,
+                        child: pw.Image(
+                          pw.MemoryImage(revergonLogo),
+                        ),
+                      ),
+                    ],
+                  ),
+                  pw.SizedBox(
+                    height: 70,
+                  ),
+                  pw.TableHelper.fromTextArray(
+                    headers: [],
+                    cellStyle: const pw.TextStyle(fontSize: 14),
+                    cellAlignment: pw.Alignment.topLeft,
+                    context: context,
+                    data: const <List<String>>[
+                      // <String>['Date', 'PDF Version', 'Acrobat Version'],
+                      <String>['Patient Name', 'Arohi'],
+                      <String>['Age Band', '20-30'],
+                      <String>['Gender', 'Female'],
+                      <String>['Height', '172cm'],
+                      <String>['Weight', '75kg'],
+                      <String>['Function', 'Laptop'],
+                      <String>['Screentime', '8-12 Hours'],
+                      <String>['Mode Of Work', 'On-Site'],
+                      // <String>['1999', 'PDF 1.3'],
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
     pdf.addPage(pw.MultiPage(
         pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
