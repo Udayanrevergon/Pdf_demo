@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:rev_pdf/save_launch.dart';
@@ -11,6 +12,9 @@ class TakeContext {
   final BuildContext ctx;
   TakeContext(this.ctx);
 }
+
+final now = DateTime.now();
+String formatter = DateFormat('y').format(now);
 
 class PdfApi {
   BuildContext ctx;
@@ -35,77 +39,169 @@ class PdfApi {
         (await rootBundle.load('assets/images/workstation_image.png'))
             .buffer
             .asUint8List();
+    final sideImage = (await rootBundle.load('assets/images/sideimage.png'))
+        .buffer
+        .asUint8List();
 
     final pdf = pw.Document();
-    pdf.addPage(pw.MultiPage(
+    pdf.addPage(
+      pw.MultiPage(
+        footer: (context) {
+          return pw.Container(
+            alignment: pw.Alignment.centerRight,
+            margin: const pw.EdgeInsets.only(
+                bottom: 2 * PdfPageFormat.mm,
+                left: 1.0 * PdfPageFormat.cm,
+                right: 1.0 * PdfPageFormat.cm),
+            child: pw.Row(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text(
+                    'Copyright © $formatter | Revergon Solutions Private Limited | All Rights Reserved.',
+                    style: pw.Theme.of(context)
+                        .defaultTextStyle
+                        .copyWith(color: PdfColors.grey, fontSize: 6),
+                  ),
+                  pw.Text(
+                    'Report ID: 9001_1048',
+                    style: pw.Theme.of(context)
+                        .defaultTextStyle
+                        .copyWith(color: PdfColors.grey, fontSize: 6),
+                  ),
+                ]),
+          );
+        },
         pageTheme: const pw.PageTheme(
             pageFormat: PdfPageFormat.a4, margin: pw.EdgeInsets.all(0)),
         build: (context) => [
-              pw.Container(
-                  width: double.infinity,
-                  height: size.height * 0.8,
-                  child: pw.Stack(alignment: pw.Alignment.center, children: [
-                    pw.Positioned(
-                      top: size.height * 0.005,
-                      left: 0,
-                      child: pw.Image(pw.MemoryImage(leftjpeg),
-                          height: size.height * 0.5, width: size.width * 0.28),
+          pw.Container(
+            width: double.infinity,
+            height: size.height * 0.8,
+            child: pw.Stack(
+              alignment: pw.Alignment.center,
+              children: [
+                pw.Positioned(
+                  top: size.height * 0.005,
+                  left: 0,
+                  child: pw.Image(pw.MemoryImage(leftjpeg),
+                      height: size.height * 0.5, width: size.width * 0.28),
+                ),
+                pw.Positioned(
+                  top: size.height * 0.005,
+                  right: 0,
+                  child: pw.Image(pw.MemoryImage(rightjpeg),
+                      height: size.height * 0.5, width: size.width * 0.28),
+                ),
+                pw.Positioned(
+                  bottom: size.height * 0.35,
+                  child: pw.Image(pw.MemoryImage(revergonLogo),
+                      height: size.height * 0.41, width: 420),
+                ),
+                pw.Positioned(
+                  bottom: size.height * 0.27,
+                  child: pw.Row(
+                    children: [
+                      pw.Text("WORKSTATION ",
+                          style: pw.TextStyle(
+                            color: PdfColors.grey700,
+                            fontSize: 20,
+                            fontWeight: pw.FontWeight.bold,
+                          )),
+                      pw.Text("Assessment ",
+                          style: const pw.TextStyle(
+                              fontSize: 20, color: PdfColors.grey700)),
+                      pw.Text("Report ",
+                          style: const pw.TextStyle(
+                              fontSize: 20, color: PdfColors.grey700)),
+                    ],
+                  ),
+                ),
+                pw.Positioned(
+                  bottom: size.height * 0.15,
+                  child: pw.Container(
+                    width: size.width * 0.7,
+                    height: size.height * 0.6,
+                    child: pw.TableHelper.fromTextArray(
+                      headers: [],
+                      cellStyle: const pw.TextStyle(fontSize: 12),
+                      cellAlignment: pw.Alignment.topLeft,
+                      context: context,
+                      data: const <List<String>>[
+                        // <String>['Date', 'PDF Version', 'Acrobat Version'],
+                        <String>['Patient Name', 'Arohi'],
+                        <String>['Organization', 'IBM'],
+                        <String>['Date', '14-06-23'],
+                        <String>['Place', 'Bangalore'],
+                        // <String>['1999', 'PDF 1.3'],
+                      ],
                     ),
-                    pw.Positioned(
-                      top: size.height * 0.005,
-                      right: 0,
-                      child: pw.Image(pw.MemoryImage(rightjpeg),
-                          height: size.height * 0.5, width: size.width * 0.28),
-                    ),
-                    pw.Positioned(
-                      bottom: size.height * 0.35,
-                      child: pw.Image(pw.MemoryImage(revergonLogo),
-                          height: size.height * 0.41, width: 420),
-                    ),
-                    pw.Positioned(
-                      bottom: size.height * 0.27,
-                      child: pw.Row(
-                        children: [
-                          pw.Text("WORKSTATION ",
-                              style: pw.TextStyle(
-                                color: PdfColors.grey700,
-                                fontSize: 20,
-                                fontWeight: pw.FontWeight.bold,
-                              )),
-                          pw.Text("Assessment ",
-                              style: const pw.TextStyle(
-                                  fontSize: 20, color: PdfColors.grey700)),
-                          pw.Text("Report ",
-                              style: const pw.TextStyle(
-                                  fontSize: 20, color: PdfColors.grey700)),
-                        ],
-                      ),
-                    ),
-                    pw.Positioned(
-                      bottom: size.height * 0.15,
-                      child: pw.Container(
-                        width: size.width * 0.7,
-                        height: size.height * 0.6,
-                        child: pw.TableHelper.fromTextArray(
-                          headers: [],
-                          cellStyle: const pw.TextStyle(fontSize: 12),
-                          cellAlignment: pw.Alignment.topLeft,
-                          context: context,
-                          data: const <List<String>>[
-                            // <String>['Date', 'PDF Version', 'Acrobat Version'],
-                            <String>['Patient Name', 'Arohi'],
-                            <String>['Organization', 'IBM'],
-                            <String>['Date', '14-06-23'],
-                            <String>['Place', 'Bangalore'],
-                            // <String>['1999', 'PDF 1.3'],
-                          ],
-                        ),
-                      ),
-                    ),
-                  ])),
-            ]));
+                  ),
+                ),
+                // pw.Positioned(
+                //   bottom: 10,
+                //   left: 10,
+                //   child: pw.Container(
+                //     alignment: pw.Alignment.centerRight,
+                //     margin:
+                //         const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+                //     child: pw.Text(
+                //       'Copyright © $formatter | Revergon Solutions Private Limited | All Rights Reserved.',
+                //       style: pw.Theme.of(context)
+                //           .defaultTextStyle
+                //           .copyWith(color: PdfColors.grey, fontSize: 6),
+                //     ),
+                //   ),
+                // ),
+                // pw.Positioned(
+                //   bottom: 10,
+                //   right: 10,
+                //   child: pw.Container(
+                //     alignment: pw.Alignment.centerRight,
+                //     margin:
+                //         const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+                //     child: pw.Text(
+                //       'Report ID: 9001_1048',
+                //       style: pw.Theme.of(context)
+                //           .defaultTextStyle
+                //           .copyWith(color: PdfColors.grey, fontSize: 6),
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
     pdf.addPage(
       pw.MultiPage(
+          footer: (context) {
+            return pw.Container(
+              alignment: pw.Alignment.centerRight,
+              margin: const pw.EdgeInsets.only(
+                  bottom: 2 * PdfPageFormat.mm,
+                  left: 1.0 * PdfPageFormat.cm,
+                  right: 1.0 * PdfPageFormat.cm),
+              child: pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text(
+                      'Copyright © $formatter | Revergon Solutions Private Limited | All Rights Reserved.',
+                      style: pw.Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(color: PdfColors.grey, fontSize: 6),
+                    ),
+                    pw.Text(
+                      'Report ID: 9001_1048',
+                      style: pw.Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(color: PdfColors.grey, fontSize: 6),
+                    ),
+                  ]),
+            );
+          },
           pageTheme: const pw.PageTheme(
               pageFormat: PdfPageFormat.a4, margin: pw.EdgeInsets.all(0)),
           build: (context) => [
@@ -159,11 +255,40 @@ class PdfApi {
               ]),
     );
     pdf.addPage(pw.MultiPage(
-        pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
+        footer: (context) {
+          return pw.Container(
+            alignment: pw.Alignment.centerRight,
+            margin: const pw.EdgeInsets.only(
+                bottom: 2 * PdfPageFormat.mm,
+                left: 1.0 * PdfPageFormat.cm,
+                right: 1.0 * PdfPageFormat.cm),
+            child: pw.Row(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text(
+                    'Copyright © $formatter | Revergon Solutions Private Limited | All Rights Reserved.',
+                    style: pw.Theme.of(context)
+                        .defaultTextStyle
+                        .copyWith(color: PdfColors.grey, fontSize: 6),
+                  ),
+                  pw.Text(
+                    'Report ID: 9001_1048',
+                    style: pw.Theme.of(context)
+                        .defaultTextStyle
+                        .copyWith(color: PdfColors.grey, fontSize: 6),
+                  ),
+                ]),
+          );
+        },
+        pageTheme: const pw.PageTheme(
+          margin: pw.EdgeInsets.all(0),
+          // buildBackground:  (context) => pw.MemoryImage(sideImage),
+        ),
         build: (context) => [
               pw.Container(
                   width: double.infinity,
-                  height: 840,
+                  height: size.height * 0.8,
                   child: pw.Padding(
                       padding: const pw.EdgeInsets.all(48.0),
                       child: pw.Column(
@@ -232,11 +357,37 @@ class PdfApi {
             ]));
     pdf.addPage(
       pw.MultiPage(
+          footer: (context) {
+            return pw.Container(
+              alignment: pw.Alignment.centerRight,
+              margin: const pw.EdgeInsets.only(
+                  bottom: 2 * PdfPageFormat.mm,
+                  left: 1.0 * PdfPageFormat.cm,
+                  right: 1.0 * PdfPageFormat.cm),
+              child: pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text(
+                      'Copyright © $formatter | Revergon Solutions Private Limited | All Rights Reserved.',
+                      style: pw.Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(color: PdfColors.grey, fontSize: 6),
+                    ),
+                    pw.Text(
+                      'Report ID: 9001_1048',
+                      style: pw.Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(color: PdfColors.grey, fontSize: 6),
+                    ),
+                  ]),
+            );
+          },
           pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
           build: (context) => [
                 pw.Container(
                   width: double.infinity,
-                  height: 840,
+                  height: size.height * 0.8,
                   child: pw.Padding(
                     padding: const pw.EdgeInsets.all(48.0),
                     child: pw.Column(
@@ -315,11 +466,37 @@ class PdfApi {
     );
     pdf.addPage(
       pw.MultiPage(
+          footer: (context) {
+            return pw.Container(
+              alignment: pw.Alignment.centerRight,
+              margin: const pw.EdgeInsets.only(
+                  bottom: 2 * PdfPageFormat.mm,
+                  left: 1.0 * PdfPageFormat.cm,
+                  right: 1.0 * PdfPageFormat.cm),
+              child: pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text(
+                      'Copyright © $formatter | Revergon Solutions Private Limited | All Rights Reserved.',
+                      style: pw.Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(color: PdfColors.grey, fontSize: 6),
+                    ),
+                    pw.Text(
+                      'Report ID: 9001_1048',
+                      style: pw.Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(color: PdfColors.grey, fontSize: 6),
+                    ),
+                  ]),
+            );
+          },
           pageTheme: const pw.PageTheme(margin: pw.EdgeInsets.all(0)),
           build: (context) => [
                 pw.Container(
                   width: double.infinity,
-                  height: 840,
+                  height: size.height * 0.8,
                   child: pw.Padding(
                     padding: const pw.EdgeInsets.all(48.0),
                     child: pw.Column(

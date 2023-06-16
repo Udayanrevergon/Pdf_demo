@@ -42,6 +42,7 @@ dependencies:
   open_file: ^3.2.1
   pdf: ^3.10.4
   open_document: ^1.0.6+2
+  intl: ^0.17.0
 
 
 dev_dependencies:
@@ -74,6 +75,7 @@ flutter:
     - assets/images/image1.svg
     - assets/images/left_image.jpeg
     - assets/images/right_image.jpeg
+    - assets/images/sideimage.png
     - assets/images/workstation_image.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
