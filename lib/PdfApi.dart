@@ -1,11 +1,8 @@
-import 'dart:io';
-
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:open_document/my_files/init.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:rev_pdf/save_launch.dart';
 
 class PageoneData {
   final String attribute;
@@ -19,7 +16,23 @@ String formatter = DateFormat('y').format(now);
 class PdfApi {
   BuildContext ctx;
   PdfApi(this.ctx);
-  Future<File> createDocument() async {
+  // Future<void> _saveAsFile(
+  //   BuildContext context,
+  //   LayoutCallback build,
+  //   PdfPageFormat pageFormat,
+  // ) async {
+  //   final bytes = await build(pageFormat);
+
+  //   final appDocDir = await getApplicationDocumentsDirectory();
+  //   final appDocPath = appDocDir.path;
+  //   final file = File('$appDocPath/document.pdf');
+  //   print('Save as file ${file.path} ...');
+  //   await file.writeAsBytes(bytes);
+  //   await OpenFile.open(file.path);
+  // }
+  Future<Uint8List> generateDocument(PdfPageFormat format) async {
+    final doc = pw.Document(pageMode: PdfPageMode.outlines);
+    // Future<File> createDocument() async {
     print("I am here3");
     // final imageSvg = await rootBundle.loadString('assets/images/image1.svg');
     final leftjpeg = (await rootBundle.load('assets/images/left_image.jpeg'))
@@ -401,6 +414,6 @@ class PdfApi {
                 ),
               ]),
     );
-    return saveDocument(name: 'my_example.pdf', pdf: pdf);
+    return await pdf.save();
   }
 }

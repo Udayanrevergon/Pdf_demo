@@ -25,6 +25,8 @@ Future openFile(File file) async {
 
   await OpenFile.open(url);
 }
+
+
 // List<int> bytes, String fileName) async {
 //   final path = (await getExternalStorageDirectory())!.path;
 // //   final file = File('$path/$fileName');
